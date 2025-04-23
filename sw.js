@@ -26,6 +26,8 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME).then(cache => {
       console.log('[SW] Caching site files');
       return cache.addAll(URLS_TO_CACHE);
+    }).catch(error => {
+      console.error('[SW] Failed to cache', error);
     })
   );
   self.skipWaiting(); // Activate immediately after install
@@ -50,7 +52,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      // Serve from cache, fallback to network
       return cachedResponse || fetch(event.request);
     })
   );
