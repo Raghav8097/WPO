@@ -17,7 +17,7 @@ const URLS_TO_CACHE = [
   '/images/blueberry.webp',
   '/images/interior.webp',
   '/images/esspresso.webp',
-  '/offline.html' // Add offline.html to cache
+  '/offline.html' // Make sure offline.html is included
 ];
 
 // Install event
@@ -26,14 +26,14 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        // Log files being cached
         console.log('Caching files...');
         return Promise.all(
           URLS_TO_CACHE.map((url) => {
             console.log(`Caching: ${url}`);
-            return cache.add(url).catch((error) => {
-              console.error('Failed to cache:', url, error);
-            });
+            return cache.add(url)
+              .catch((error) => {
+                console.error(`Failed to cache: ${url}`, error);  // Clear error messages with URL
+              });
           })
         );
       })
