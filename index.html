@@ -1,68 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home - Brew Haven</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew Haven - Order / Reservation</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <nav class="navbar">
       <div class="logo">Brew Haven</div>
       <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="index.html">Home</a></li>
         <li><a href="menu.html">Menu</a></li>
         <li><a href="about.html">About Us</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="faq.html">FAQ</a></li>
-        <li><a href="reservation.html">Order</a></li>
+        <li><a href="reservation.html" class="active">Order</a></li>
       </ul>
       <a href="reservation.html" class="order-button">Order Now</a>
     </nav>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Welcome to Brew Haven</h1>
-        <p>Your cozy coffee spot</p>
-        <a href="menu.html" class="cta-button">Explore Our Menu</a>
-      </div>
-
+  <main class="reservation-page">
+    <section class="reservation-hero">
+      <h1>Reserve a Table or Order Ahead</h1>
+      <p>Book your cozy coffee moment or pre-order your favorite drinks.</p>
     </section>
 
-    <section class="about-preview">
-      <div class="about-text">
-        <h2>About Us</h2>
-        <p>We're passionate about providing the best coffee experience.</p>
-        <a href="about.html" class="view-full-menu">Learn More</a>
-      </div>
-      <div class="about-img">
-        <img src="images/interior.webp" alt="Brew Haven Interior" />
-      </div>
-    </section>
+    <section class="reservation-form-section">
+      <form class="reservation-form">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required />
 
-    <section class="menu-preview">
-      <h2>Our Popular Drinks</h2>
-      <div class="menu-cards">
-        <div class="card">
-          <img src="images/latte.webp" alt="Latte" />
-          <h3>Latte</h3>
-          <p>Warm and creamy</p>
-        </div>
-        <div class="card">
-          <img src="images/coffee.webp" alt="Coffee" />
-          <h3>Coffee</h3>
-          <p>Classic brewed coffee</p>
-        </div>
-        <div class="card">
-          <img src="images/mocha.webp" alt="Mocha" />
-          <h3>Mocha</h3>
-          <p>Chocolate and coffee blend</p>
-        </div>
-      </div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required />
+
+        <label for="time">Time</label>
+        <input type="time" id="time" name="time" required />
+
+        <label for="guests">Number of Guests</label>
+        <input type="number" id="guests" name="guests" min="1" max="20" required />
+
+        <button type="submit">Confirm Reservation</button>
+      </form>
     </section>
   </main>
 
@@ -70,7 +55,7 @@
     <div class="footer-content">
       <div>
         <h4>Contact</h4>
-        <p>123 Brew Street<br>Cityville, CoffeeLand</p>
+        <p>123 Brew Street<br />Cityville, CoffeeLand</p>
         <p>Phone: (123) 456-7890</p>
       </div>
       <div>
