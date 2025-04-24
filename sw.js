@@ -17,7 +17,7 @@ const URLS_TO_CACHE = [
   '/images/blueberry.webp',
   '/images/interior.webp',
   '/images/esspresso.webp',
-  '/offline.html' // Make sure offline.html is included
+  '/offline.html' // Ensure offline.html is included
 ];
 
 // Install event
@@ -29,11 +29,15 @@ self.addEventListener('install', (event) => {
         console.log('Caching files...');
         return Promise.all(
           URLS_TO_CACHE.map((url) => {
-            console.log(`Caching: ${url}`);
-            return cache.add(url)
-              .catch((error) => {
-                console.error(`Failed to cache: ${url}`, error);  // Clear error messages with URL
-              });
+            if (url && typeof url === 'string') {
+              console.log(`Caching: ${url}`);
+              return cache.add(url)
+                .catch((error) => {
+                  console.error(`Failed to cache: ${url}`, error);  // Logging URL and error
+                });
+            } else {
+              console.error('Invalid URL:', url);  // Additional check for invalid URLs
+            }
           })
         );
       })
