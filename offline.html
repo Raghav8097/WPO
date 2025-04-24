@@ -1,16 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Offline - Brew Haven</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main style="text-align:center;padding:40px;">
-    <h1>Oops! You're Offline</h1>
-    <p>It looks like you’ve lost internet connection. You can still browse some parts of the site.</p>
-    <a href="index.html" class="order-button">Go Back Home</a>
-  </main>
-</body>
-</html>
+const CACHE_NAME = 'brew-haven-v1';
+const URLS_TO_CACHE = [
+  '/',
+  'index.html',
+  'menu.html',
+  'about.html',
+  'blog.html',
+  'careers.html',
+  'contact.html',
+  'events.html',
+  'faq.html',
+  'reservation.html',
+  'style.css',
+  'offline.html', // Make sure this is included!
+  'images/hero-bg.jpg',
+  'images/latte.webp',
+  'images/mocha.webp',
+  'images/coffee.webp',
+  'images/blackcoffe.webp',
+  'images/blueberry.webp',
+  'images/interior.webp',
+  'images/esspresso.webp'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(URLS_TO_CACHE))
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.map((name) => {
+          if (name !== CACHE_NAME) {
+            return caches.delete(name);
+          }
+        })
+      )
+    )
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    fetch(event.request)
+      .then((response) => {
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request)
+          .then((cachedResponse) => {
+            // If it's a navigation request, show offline page
+            if (event.request.mode === 'navigate') {
+              return caches.match('offline.html');
+            }
+            return cachedResponse;
+          });
+      })
+  );
+});
