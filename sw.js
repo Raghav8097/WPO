@@ -5,7 +5,6 @@ const URLS_TO_CACHE = [
   '/menu.html',
   '/about.html',
   '/blog.html',
-  '/careers.html',
   '/contact.html',
   '/events.html',
   '/faq.html',
