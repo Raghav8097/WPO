@@ -16,7 +16,8 @@ const URLS_TO_CACHE = [
   '/images/blackcoffe.webp',
   '/images/blueberry.webp',
   '/images/interior.webp',
-  '/images/esspresso.webp'
+  '/images/esspresso.webp',
+  '/offline.html' // Add offline.html to cache
 ];
 
 // Install event
@@ -31,7 +32,7 @@ self.addEventListener('install', (event) => {
           URLS_TO_CACHE.map((url) => {
             console.log(`Caching: ${url}`);
             return cache.add(url).catch((error) => {
-              console.error(`Failed to cache: ${url}`, error);
+              console.error('Failed to cache:', url, error);
             });
           })
         );
