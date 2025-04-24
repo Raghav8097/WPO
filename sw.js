@@ -26,21 +26,32 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        return cache.addAll(URLS_TO_CACHE)
-          .catch((error) => {
-            console.error('Failed to cache one or more files:', error);
-          });
+        // Log files being cached
+        console.log('Caching files...');
+        return Promise.all(
+          URLS_TO_CACHE.map((url) => {
+            console.log(`Caching: ${url}`);
+            return cache.add(url).catch((error) => {
+              console.error(`Failed to cache: ${url}`, error);
+            });
+          })
+        );
+      })
+      .catch((error) => {
+        console.error('Error during caching:', error);
       })
   );
 });
 
 // Activate event
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker activating...');
   event.waitUntil(
     caches.keys().then((cacheNames) =>
       Promise.all(
         cacheNames.map((name) => {
           if (name !== CACHE_NAME) {
+            console.log(`Deleting old cache: ${name}`);
             return caches.delete(name);
           }
         })
@@ -53,12 +64,15 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request)
+      if (response) {
+        return response;  // Return cached response
+      }
+      return fetch(event.request)
         .then((response) => {
           return response;
         })
         .catch(() => {
-          // Optional: serve fallback offline page
+          // Serve offline page if unable to fetch
           if (event.request.mode === 'navigate') {
             return caches.match('/offline.html');
           }
